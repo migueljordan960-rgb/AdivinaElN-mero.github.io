@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>🎮 Adivina el Número</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .game-box {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0px 8px 15px rgba(0,0,0,0.3);
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 60%;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .try-btn { background: #28a745; color: white; }
+    .new-btn { background: #ffc107; color: black; }
+    .log {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h1>🎮 Adivina el Número</h1>
+    <p>Adivina un número entre <strong>1</strong> y <strong>100</strong>.</p>
+
+    <input id="guess" type="number" min="1" max="100" placeholder="Tu número..." />
+    <br />
+    <button class="try-btn" id="tryBtn">Intentar</button>
+    <button class="new-btn" id="newBtn">Nuevo Juego</button>
+
+    <div class="log" id="log">¡Empieza a jugar!</div>
+  </div>
+
+  <script>
+    let secret, tries;
+    const log = document.getElementById('log');
+    const input = document.getElementById('guess');
+
+    function newGame() {
+      secret = Math.floor(Math.random()*100)+1;
+      tries = 0;
+      log.innerHTML = 'Juego iniciado. ¡Suerte!';
+      input.value = '';
+      input.focus();
+    }
+
+    document.getElementById('tryBtn').addEventListener('click', () => {
+      const n = Number(input.value);
+      if (!n || n < 1 || n > 100) {
+        log.innerHTML = '⚠️ Ingresa un número entre 1 y 100.';
+        return;
+      }
+      tries++;
+      if (n > secret) log.innerHTML = `⬆️ Muy alto. Intentos: ${tries}`;
+      else if (n < secret) log.innerHTML = `⬇️ Muy bajo. Intentos: ${tries}`;
+      else log.innerHTML = `🎉 ¡Adivinaste en ${tries} intentos!`;
+    });
+
+    document.getElementById('newBtn').addEventListener('click', newGame);
+
+    newGame();
+  </script>
+</body>
+</html>
